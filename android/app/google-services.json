@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1087736276267",
+    "firebase_url": "https://paxdemo-7458d.firebaseio.com",
+    "project_id": "paxdemo-7458d",
+    "storage_bucket": "paxdemo-7458d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1087736276267:android:c78f368043867923",
+        "android_client_info": {
+          "package_name": "com.pax"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1087736276267-v5dhan33mqkldafku5sfo2igo79st03f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pax",
+            "certificate_hash": "faffcf5600879873e4ce3269227ba2cbf13a157c"
+          }
+        },
+        {
+          "client_id": "1087736276267-s3j12uh9oita0iga5h6c7dr8sibl26h2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2fOWxPAyzl49zJekqnMvGEhPu2-dTpVc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1087736276267-s3j12uh9oita0iga5h6c7dr8sibl26h2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
