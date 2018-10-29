@@ -177,6 +177,7 @@ class Checkins extends Component {
 
   makeRemoteRequest = () => {
     const { page, seed } = this.state;
+    const paxUrl = "http://localhost:3000/api/users";
     const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=20`;
     this.setState({ loading: true });
 
@@ -268,7 +269,9 @@ class Checkins extends Component {
           <FlatList
             data={this.state.data}
             renderItem={({ item }) => (
-              <TouchableOpacity onPress={this.navigate}>
+              <TouchableOpacity
+                onPress={() => Actions.checkindetails({ data: item })}
+              >
                 <ListItem
                   subtitle={
                     <View style={{ marginLeft: 10 }}>

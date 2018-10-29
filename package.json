@@ -8,6 +8,8 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0",
+    "body-parser": "^1.18.3",
+    "mongoose": "^5.3.4",
     "native-base": "^2.8.1",
     "react": "16.5.0",
     "react-native": "0.57.1",

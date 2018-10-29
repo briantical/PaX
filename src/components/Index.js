@@ -15,6 +15,7 @@ import Login from "./authentication/Login";
 import Signup from "./authentication/Signup";
 import Profile from "./authentication/Profile";
 import CheckinDetails from "./Home/pages/CheckinDetails";
+import Confirmation from "./Home/pages/Confirmation";
 import Home from "./Home/Home";
 
 YellowBox.ignoreWarnings([
@@ -59,6 +60,13 @@ export default class Main extends Component<Props> {
             key="checkindetails"
             component={CheckinDetails}
             title="CheckinDetails"
+            hideNavBar={true}
+            renderBackButton={() => <View />}
+          />
+          <Scene
+            key="confirmation"
+            component={Confirmation}
+            title="confirmation"
             hideNavBar={true}
             renderBackButton={() => <View />}
           />
