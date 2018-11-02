@@ -9,153 +9,7 @@ import {
 } from "react-native";
 import { List, ListItem, Icon } from "react-native-elements";
 import { Actions } from "react-native-router-flux";
-
-let _data = [
-  {
-    numberPlate: "UAX 345D",
-    entryPoint: "Main gate",
-    exitPoint: "Western gate",
-    timein: "15:00",
-    timeout: "still in",
-    venue: "Makerere University",
-    venuePic: require("../../../assets/avatar.png")
-  },
-  {
-    numberPlate: "UBD 345D",
-    entryPoint: "Gate E",
-    exitPoint: "Gate F",
-    timein: "10:00",
-    timeout: "17:00",
-    venue: "EBB Airport",
-    venuePic: require("../../../assets/avatar.png")
-  },
-  {
-    numberPlate: "UAX 345D",
-    entryPoint: "Main gate",
-    exitPoint: "Western gate",
-    timein: "15:00",
-    timeout: "17:00",
-    venue: "Makerere University",
-    venuePic: require("../../../assets/avatar.png")
-  },
-  {
-    numberPlate: "UBD 345D",
-    entryPoint: "Gate E",
-    exitPoint: "Gate F",
-    timein: "10:00",
-    timeout: "17:00",
-    venue: "EBB Airport",
-    venuePic: require("../../../assets/avatar.png")
-  },
-  {
-    numberPlate: "UAX 345D",
-    entryPoint: "Main gate",
-    exitPoint: "Western gate",
-    timein: "15:00",
-    timeout: "17:00",
-    venue: "Makerere University",
-    venuePic: require("../../../assets/avatar.png")
-  },
-  {
-    numberPlate: "UBD 345D",
-    entryPoint: "Gate E",
-    exitPoint: "Gate F",
-    timein: "10:00",
-    timeout: "17:00",
-    venue: "EBB Airport",
-    venuePic: require("../../../assets/avatar.png")
-  },
-  {
-    numberPlate: "UAX 345D",
-    entryPoint: "Main gate",
-    exitPoint: "Western gate",
-    timein: "15:00",
-    timeout: "17:00",
-    venue: "Makerere University",
-    venuePic: require("../../../assets/avatar.png")
-  },
-  {
-    numberPlate: "UBD 345D",
-    entryPoint: "Gate E",
-    exitPoint: "Gate F",
-    timein: "10:00",
-    timeout: "17:00",
-    venue: "EBB Airport",
-    venuePic: require("../../../assets/avatar.png")
-  },
-  {
-    numberPlate: "UAX 345D",
-    entryPoint: "Main gate",
-    exitPoint: "Western gate",
-    timein: "15:00",
-    timeout: "17:00",
-    venue: "Makerere University",
-    venuePic: require("../../../assets/avatar.png")
-  },
-  {
-    numberPlate: "UBD 345D",
-    entryPoint: "Gate E",
-    exitPoint: "Gate F",
-    timein: "10:00",
-    timeout: "17:00",
-    venue: "EBB Airport",
-    venuePic: require("../../../assets/avatar.png")
-  },
-  {
-    numberPlate: "UAX 345D",
-    entryPoint: "Main gate",
-    exitPoint: "Western gate",
-    timein: "15:00",
-    timeout: "17:00",
-    venue: "Makerere University",
-    venuePic: require("../../../assets/avatar.png")
-  },
-  {
-    numberPlate: "UBD 345D",
-    entryPoint: "Gate E",
-    exitPoint: "Gate F",
-    timein: "10:00",
-    timeout: "17:00",
-    venue: "EBB Airport",
-    venuePic: require("../../../assets/avatar.png")
-  },
-  {
-    numberPlate: "UAX 345D",
-    entryPoint: "Main gate",
-    exitPoint: "Western gate",
-    timein: "15:00",
-    timeout: "17:00",
-    venue: "Makerere University",
-    venuePic: require("../../../assets/avatar.png")
-  },
-  {
-    numberPlate: "UBD 345D",
-    entryPoint: "Gate E",
-    exitPoint: "Gate F",
-    timein: "10:00",
-    timeout: "17:00",
-    venue: "EBB Airport",
-    venuePic: require("../../../assets/avatar.png")
-  },
-  {
-    numberPlate: "UAX 345D",
-    entryPoint: "Main gate",
-    exitPoint: "Western gate",
-    timein: "15:00",
-    timeout: "17:00",
-    venue: "Makerere University",
-    venuePic: require("../../../assets/avatar.png")
-  },
-  {
-    numberPlate: "UBD 345D",
-    entryPoint: "Gate E",
-    exitPoint: "Gate F",
-    timein: "10:00",
-    timeout: "17:00",
-    venue: "EBB Airport",
-    venuePic: require("../../../assets/avatar.png")
-  }
-];
+import Backdrop from "./Backdrop";
 
 class Checkins extends Component {
   constructor(props) {
@@ -167,7 +21,8 @@ class Checkins extends Component {
       page: 1,
       seed: 1,
       error: null,
-      refreshing: false
+      refreshing: false,
+      modalVisible: false
     };
   }
 
@@ -177,15 +32,14 @@ class Checkins extends Component {
 
   makeRemoteRequest = () => {
     const { page, seed } = this.state;
-    const paxUrl = "http://localhost:3000/api/users";
-    const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=20`;
+    const paxUrl = "http://192.168.137.1:3000/api/users/lutbrianivan@gmail.com";
     this.setState({ loading: true });
 
-    fetch(url)
+    fetch(paxUrl)
       .then(res => res.json())
       .then(res => {
         this.setState({
-          data: _data,
+          data: res.checkins,
           error: res.error || null,
           loading: false,
           refreshing: false
@@ -193,6 +47,7 @@ class Checkins extends Component {
       })
       .catch(error => {
         this.setState({ error, loading: false });
+        console.log("THE ERROR:" + error);
         console.log("No internet connection");
       });
   };
@@ -208,6 +63,14 @@ class Checkins extends Component {
         this.makeRemoteRequest();
       }
     );
+  };
+
+  showBackground = () => {
+    this.setState({ modalVisible: true });
+  };
+
+  endBackground = () => {
+    this.setState({ modalVisible: false });
   };
 
   handleLoadMore = () => {
@@ -249,9 +112,6 @@ class Checkins extends Component {
     );
   };
 
-  navigate = () => {
-    Actions.checkindetails({ text: "hello world" });
-  };
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -293,7 +153,7 @@ class Checkins extends Component {
                         </Text>
                       </View>
                       <Text style={{ fontSize: 15, fontWeight: "bold" }}>
-                        {item.numberPlate}
+                        {item.vehicle}
                       </Text>
                       <View style={{ flexDirection: "row" }}>
                         <View style={{ flex: 1 }}>
@@ -323,7 +183,9 @@ class Checkins extends Component {
                           <Text
                             style={{ fontWeight: "normal", paddingLeft: 5 }}
                           >
-                            {item.timein}
+                            {new Date(item.entryDate)
+                              .toTimeString()
+                              .slice(0, 8)}
                           </Text>
                         </View>
                       </View>
@@ -356,7 +218,11 @@ class Checkins extends Component {
                           <Text
                             style={{ fontWeight: "normal", paddingLeft: 5 }}
                           >
-                            {item.timeout}
+                            {item.exitDate == null
+                              ? "still in"
+                              : new Date(item.exitDate)
+                                  .toTimeString()
+                                  .slice(0, 8)}
                           </Text>
                         </View>
                       </View>
@@ -366,7 +232,7 @@ class Checkins extends Component {
                 />
               </TouchableOpacity>
             )}
-            keyExtractor={item => item.numberPlate}
+            keyExtractor={item => item._id}
             ItemSeparatorComponent={this.renderSeparator}
             ListFooterComponent={this.renderFooter}
             onRefresh={this.handleRefresh}
@@ -376,6 +242,25 @@ class Checkins extends Component {
             onEndReachedThreshold={50}
           />
         </List>
+        <TouchableOpacity style={styles.fab} onPress={this.showBackground}>
+          <Text
+            style={{
+              color: "#FFF",
+              fontSize: 60,
+              alignSelf: "center",
+              paddingBottom: 5
+            }}
+          >
+            +
+          </Text>
+        </TouchableOpacity>
+        {!this.state.modalVisible ? null : (
+          <Backdrop
+            visibility={true}
+            theView={1}
+            endVisibility={this.endBackground}
+          />
+        )}
       </View>
     );
   }
@@ -390,6 +275,18 @@ const styles = StyleSheet.create({
   headerTitle: {
     color: "#FFF",
     fontSize: 20
+  },
+  fab: {
+    bottom: 30,
+    right: 20,
+    position: "absolute",
+    height: 70,
+    width: 70,
+    backgroundColor: "#00AF66",
+    borderRadius: 70,
+    borderWidth: StyleSheet.hairlinewidth,
+    justifyContent: "space-around",
+    alignItems: "center"
   }
 });
 export default Checkins;

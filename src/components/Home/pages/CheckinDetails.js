@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { Icon } from "react-native-elements";
 import Backdrop from "./Backdrop";
+import { Actions } from "react-native-router-flux";
 
 type Props = {};
 export default class CheckinDetails extends Component<Props> {
@@ -15,16 +16,54 @@ export default class CheckinDetails extends Component<Props> {
     this.setState({ modalVisible: true });
   };
 
+  endBackground = () => {
+    this.setState({ modalVisible: false });
+  };
+
+  navigate = () => {
+    Actions.popTo("home");
+  };
+
+  getDuration = () => {
+    const entryTime = new Date(this.props.data.entryDate).getTime();
+    let currentTime = 0;
+    if (this.props.data.exitDate !== null) {
+      currentTime = new Date(this.props.data.exitDate).getTime();
+    } else {
+      currentTime = new Date().getTime();
+    }
+
+    let hrDiff = (currentTime - entryTime) / 1000 / 3600;
+    let minDiff = ((currentTime - entryTime) / 1000) % 60;
+    let hrs = Math.abs(Math.round(hrDiff));
+    let mins = Math.abs(Math.round(minDiff));
+    return hrs + "Hrs " + mins + "mins";
+  };
   render() {
     console.log(this.props.data);
+    const { data } = this.props;
+    console.log(data);
     return (
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.headerTitle}>PaX</Text>
+          <TouchableOpacity
+            style={{
+              flex: 2,
+              alignItems: "center",
+              height: "100%",
+              justifyContent: "center"
+            }}
+            onPress={this.navigate}
+          >
+            <Icon name="arrow-back" color="#FFF" size={20} />
+          </TouchableOpacity>
+          <View style={{ flex: 8, alignItems: "center", paddingRight: 10 }}>
+            <Text style={styles.headerTitle}>PaX</Text>
+          </View>
         </View>
         <View style={styles.subheader}>
           <Text style={styles.subheaderTitle}>
-            THURSDAY, 14 AUGUST 2018, 03:15
+            {new Date(data.entryDate).toDateString()}
           </Text>
         </View>
         <View style={styles.content}>
@@ -37,7 +76,7 @@ export default class CheckinDetails extends Component<Props> {
                 color: "#2F3C4C"
               }}
             >
-              Makerere University Kampala
+              {data.venue}
             </Text>
           </View>
           <View style={styles.entryDetails}>
@@ -61,13 +100,15 @@ export default class CheckinDetails extends Component<Props> {
                   <Text style={{ fontWeight: "bold", color: "#2F3C4C" }}>
                     ENTRY:{" "}
                   </Text>
-                  <Text>Main Gate</Text>
+                  <Text>{data.entryPoint}</Text>
                 </View>
                 <View style={{ flexDirection: "row", marginLeft: 10 }}>
                   <Text style={{ fontWeight: "bold", color: "#2F3C4C" }}>
                     TIME IN:{" "}
                   </Text>
-                  <Text>15:00</Text>
+                  <Text>
+                    {new Date(data.entryDate).toTimeString().slice(0, 8)}
+                  </Text>
                 </View>
               </View>
             </View>
@@ -92,13 +133,17 @@ export default class CheckinDetails extends Component<Props> {
                   <Text style={{ fontWeight: "bold", color: "#2F3C4C" }}>
                     EXIT:{" "}
                   </Text>
-                  <Text> _ _ _</Text>
+                  <Text> {data.exitPoint}</Text>
                 </View>
                 <View style={{ flexDirection: "row", marginLeft: 10 }}>
                   <Text style={{ fontWeight: "bold", color: "#2F3C4C" }}>
                     TIME OUT:{" "}
                   </Text>
-                  <Text>_ _ : _ _</Text>
+                  <Text>
+                    {data.exitDate == null
+                      ? "still in"
+                      : new Date(data.exitDate).toTimeString().slice(0, 8)}
+                  </Text>
                 </View>
               </View>
             </View>
@@ -106,18 +151,31 @@ export default class CheckinDetails extends Component<Props> {
           <View style={styles.paymentDetails}>
             <View style={styles.details}>
               <Text style={styles.boldText}>DURATION :</Text>
-              <Text>3:12:08:01</Text>
+              <Text>{this.getDuration()}</Text>
             </View>
             <View style={styles.details}>
               <Text style={styles.boldText}>AMOUNT DUE: Shs </Text>
-              <Text>3,000</Text>
+              <Text>{data.amountPaid}</Text>
             </View>
           </View>
         </View>
-        <TouchableOpacity style={styles.footer} onPress={this.showBackground}>
-          <Text style={styles.footerTitle}>CONFIRM PAYMENT</Text>
-        </TouchableOpacity>
-        {!this.state.modalVisible ? null : <Backdrop visibility={true} />}
+        {data.isPaid ? (
+          <TouchableOpacity style={styles.footer} onPress={null}>
+            <Text style={styles.footerTitle}>PAYMENT CONFIRMED</Text>
+            <Text style={styles.footerTitle}>Thank You for using PaX!</Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity style={styles.footer} onPress={this.showBackground}>
+            <Text style={styles.footerTitle}>CONFIRM PAYMENT</Text>
+          </TouchableOpacity>
+        )}
+        {!this.state.modalVisible ? null : (
+          <Backdrop
+            visibility={true}
+            theView={2}
+            endVisibility={this.endBackground}
+          />
+        )}
       </View>
     );
   }
@@ -134,8 +192,8 @@ const styles = StyleSheet.create({
   },
   header: {
     flex: 1,
-    justifyContent: "center",
     alignItems: "center",
+    flexDirection: "row",
     backgroundColor: "#00AF66"
   },
   headerTitle: {

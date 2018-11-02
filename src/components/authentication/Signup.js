@@ -65,12 +65,12 @@ export default class Signup extends Component {
     const { email, password, confirmPassword } = this.state;
 
     return (
-      <View style={{ padding: 25 }}>
+      <View style={{ padding: 25 , justifyContent: 'center', flex: 1}}>
         <View>
           <Text>Email:</Text>
           <TextInput
             autoFocus
-            style={{ height: 40, marginTop: 15, marginBottom: 15 }}
+            style={{ color: "#2F3C4C",height: 40, marginTop: 15, marginBottom: 15 , borderBottomWidth: 1,borderBottomColor:"#2F3C4C"}}
             onChangeText={value => this.setState({ email: value })}
             placeholder={"Email ... "}
             value={email}
@@ -79,7 +79,7 @@ export default class Signup extends Component {
           <TextInput
             autoFocus
             secureTextEntry
-            style={{ height: 40, marginTop: 15, marginBottom: 15 }}
+            style={{ color: "#2F3C4C",height: 40, marginTop: 15, marginBottom: 15 , borderBottomWidth: 1,borderBottomColor:"#2F3C4C"}}
             onChangeText={value => this.setState({ password: value })}
             placeholder={"Enter password ... "}
             value={password}
@@ -88,7 +88,7 @@ export default class Signup extends Component {
           <TextInput
             autoFocus
             secureTextEntry
-            style={{ height: 40, marginTop: 15, marginBottom: 15 }}
+            style={{ color: "#2F3C4C",height: 40, marginTop: 15, marginBottom: 15 , borderBottomWidth: 1,borderBottomColor:"#2F3C4C"}}
             onChangeText={value => this.setState({ confirmPassword: value })}
             placeholder={"Enter password ... "}
             value={confirmPassword}
@@ -98,7 +98,7 @@ export default class Signup extends Component {
             style={{
               width: 100,
               justifyContent: "center",
-              backgroundColor: "#1B365D",
+              backgroundColor: "#00AF66",
               alignSelf: "center"
             }}
             onPress={this.signIn}

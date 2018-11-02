@@ -8,15 +8,15 @@ import {
   YellowBox
 } from "react-native";
 import { Router, Scene, Stack } from "react-native-router-flux";
-import SplashScreen from "react-native-splash-screen";
-import firebase from "react-native-firebase";
 
 import Login from "./authentication/Login";
 import Signup from "./authentication/Signup";
 import Profile from "./authentication/Profile";
 import CheckinDetails from "./Home/pages/CheckinDetails";
 import Confirmation from "./Home/pages/Confirmation";
+import NewCheckin from "./Home/pages/NewCheckin";
 import Home from "./Home/Home";
+import Direct from './Routing/Direct'
 
 YellowBox.ignoreWarnings([
   "Warning: isMounted(...) is deprecated",
@@ -29,7 +29,13 @@ export default class Main extends Component<Props> {
     return (
       <Router>
         <Stack>
-          {/*<Scene
+        <Scene
+            key="direct"
+            component={Direct}
+            title="Direct"
+            hideNavBar={true}
+          />
+          <Scene
             key="login"
             component={Login}
             title="Login"
@@ -48,7 +54,7 @@ export default class Main extends Component<Props> {
             title="Profile"
             hideNavBar={true}
             renderBackButton={() => <View />}
-          />*/}
+          />
           <Scene
             key="home"
             component={Home}
@@ -67,6 +73,13 @@ export default class Main extends Component<Props> {
             key="confirmation"
             component={Confirmation}
             title="confirmation"
+            hideNavBar={true}
+            renderBackButton={() => <View />}
+          />
+          <Scene
+            key="newcheckin"
+            component={NewCheckin}
+            title="newcheckin"
             hideNavBar={true}
             renderBackButton={() => <View />}
           />
