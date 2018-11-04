@@ -22,7 +22,8 @@ class Checkins extends Component {
       seed: 1,
       error: null,
       refreshing: false,
-      modalVisible: false
+      modalVisible: false,
+      connection: false
     };
   }
 
@@ -32,13 +33,14 @@ class Checkins extends Component {
 
   makeRemoteRequest = () => {
     const { page, seed } = this.state;
-    const paxUrl = "http://192.168.137.1:3000/api/users/lutbrianivan@gmail.com";
+    const paxUrl = "http://192.168.101.27:3000/api/users/lutbrianivan@gmail.com";
     this.setState({ loading: true });
 
     fetch(paxUrl)
       .then(res => res.json())
       .then(res => {
         this.setState({
+          connection: true,
           data: res.checkins,
           error: res.error || null,
           loading: false,
@@ -48,7 +50,7 @@ class Checkins extends Component {
       .catch(error => {
         this.setState({ error, loading: false });
         console.log("THE ERROR:" + error);
-        console.log("No internet connection");
+        console.log("No internet connection");        
       });
   };
 
@@ -118,9 +120,21 @@ class Checkins extends Component {
         <View style={styles.header}>
           <Text style={styles.headerTitle}>PaX</Text>
         </View>
-        <List
+        {
+          !this.state.connection ?
+          (
+            <View style={{flex: 9,justifyContent: 'center', alignItems: 'center'}}>
+              <Text style={{color:"#2F3C4C", fontSize: 20, fontWeight: 'bold' }}>
+                NO SERVER CONNECTION
+              </Text>
+              <ActivityIndicator animating size="large" color="#2F3C4C"/>
+            </View>
+          )
+          :
+          (   <View style={{flex: 9}}>           
+              <List
           containerStyle={{
-            flex: 9,
+            flex: 1,
             marginTop: 0,
             borderTopWidth: 0,
             borderBottomWidth: 0
@@ -261,16 +275,21 @@ class Checkins extends Component {
             endVisibility={this.endBackground}
           />
         )}
+        </View>
+          )
+        }        
       </View>
     );
   }
 }
 const styles = StyleSheet.create({
   header: {
+    minHeight: 60,
+    maxHeight: 60,
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#00AF66"
+    backgroundColor: "#00AF66",   
   },
   headerTitle: {
     color: "#FFF",

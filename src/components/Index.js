@@ -23,8 +23,8 @@ YellowBox.ignoreWarnings([
   "Module RCTImageLoader"
 ]);
 
-type Props = {};
-export default class Main extends Component<Props> {
+
+export default class Main extends Component {
   render() {
     return (
       <Router>
@@ -34,12 +34,14 @@ export default class Main extends Component<Props> {
             component={Direct}
             title="Direct"
             hideNavBar={true}
+            renderBackButton={() => <View />}
           />
           <Scene
             key="login"
             component={Login}
             title="Login"
             hideNavBar={true}
+            renderBackButton={() => <View />}
           />
           <Scene
             key="signup"

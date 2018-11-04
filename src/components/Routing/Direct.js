@@ -1,16 +1,34 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Text} from "react-native";
+import { StyleSheet, View} from "react-native";
+import firebase from "react-native-firebase";
 
+import Home from '../Home/Home'
+import Login from '../authentication/Login'
 
-type Props = {};
-export default class Direct extends Component<Props> {
-  componentDidMount() {   
+export default class Direct extends Component {
+  constructor(props) {
+    super(props);
+    this.unsubscribe = null;
+    this.state = {
+      user: null,     
+    };
+  }
+
+  componentDidMount() { 
+     this.unsubscribe = firebase.auth().onAuthStateChanged(user => {
+        if (user) {          
+          this.setState({ user: user.toJSON() });          
+        }
+      });   
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <Text>Directions</Text>
+      
+       {this.unsubscribe  ? <Home/> : <Login/>}  
+    
+       
       </View>
     );
   }
