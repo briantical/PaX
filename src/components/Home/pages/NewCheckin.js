@@ -1,109 +1,56 @@
+"use strict";
+
 import React, { Component } from "react";
+
 import {
-  Platform,
+  AppRegistry,
   StyleSheet,
   Text,
-  View,
-  TouchableOpacity
+  TouchableOpacity,
+  Linking
 } from "react-native";
-import { QRreader } from "react-native-qr-scanner";
-import ImagePicker from "react-native-image-picker";
+
+import QRCodeScanner from "react-native-qrcode-scanner";
 
 export default class NewCheckin extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      reader: {
-        message: null,
-        data: null
-      }
-    };
-  }
-  render() {
-    return (
-      <View style={styles.container}>
-        <TouchableOpacity
-          onPress={() => {
-            this.openPhoto();
-          }}
-        >
-          <Text style={{ marginTop: 20 }}>
-            {" "}
-            Open album recognition QR code{" "}
-          </Text>
-        </TouchableOpacity>
-        <View>
-          {!this.state.reader ? (
-            <Text>
-              {" "}
-              {!this.state.reader.theMessage
-                ? " "
-                : ` $ { the this . State .reader.message}`}
-            </Text>
-          ) : (
-            <Text>
-              {!this.state.reader.message
-                ? ""
-                : `${this.state.reader.message}:${this.state.reader.data}`}
-            </Text>
-          )}
-        </View>
-      </View>
+  onSuccess(e) {
+    Linking.openURL(e.data).catch(err =>
+      console.error("An error occured", err)
     );
   }
 
-  openPhoto() {
-    console.log("ImagePicker");
-    ImagePicker.launchImageLibrary({}, response => {
-      console.log("Response = ", response);
-
-      if (response.didCancel) {
-        console.log("User cancelled image picker");
-      } else if (response.error) {
-        console.log("ImagePicker Error: ", response.error);
-      } else if (response.customButton) {
-        console.log("User tapped custom button: ", response.customButton);
-      } else {
-        if (response.uri) {
-          var path = response.path;
-          if (!path) {
-            path = response.uri;
-          }
-          QRreader(path)
-            .then(data => {
-              this.setState({
-                reader: {
-                  Message: " identifying successful ",
-                  date: date
-                }
-              });
-              // Automatically clear setTimeout after ten seconds
-              () => {
-                this.setState({
-                  reader: {
-                    message: null,
-                    data: null
-                  }
-                });
-              },
-                10000;
-            })
-            .catch(err => {
-              this.setState({
-                reader: {
-                  Message: " recognition fails ",
-                  data: null
-                }
-              });
-            });
+  render() {
+    return (
+      <QRCodeScanner
+        onRead={this.onSuccess.bind(this)}
+        topContent={<Text style={styles.centerText}>PAX</Text>}
+        bottomContent={
+          <TouchableOpacity style={styles.buttonTouchable}>
+            <Text style={styles.buttonText}>SCAN CARD</Text>
+          </TouchableOpacity>
         }
-      }
-    });
+      />
+    );
   }
 }
+
 const styles = StyleSheet.create({
-  container: {
+  centerText: {
     flex: 1,
-    backgroundColor: "#fff"
+    fontSize: 18,
+    padding: 32,
+    color: "#FFF",
+    backgroundColor: "#00AF66"
+  },
+  textBold: {
+    fontWeight: "500",
+    color: "#000"
+  },
+  buttonText: {
+    fontSize: 21,
+    color: "rgb(0,122,255)"
+  },
+  buttonTouchable: {
+    padding: 16
   }
 });

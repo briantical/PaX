@@ -33,6 +33,7 @@ export default class Profile extends Component<Props> {
       Password: "",
       photoUrl: "",
       name: "",
+      vehicle: "",
       userName: "",
       phoneNumber: "+256",
       ImageSource: null,
@@ -114,6 +115,7 @@ export default class Profile extends Component<Props> {
         userID: this.state.userID,
         username: this.state.userName,
         userEmail: this.state.Email,
+        vehicle: this.state.vehicle,
         phoneNumber: this.state.phoneNumber,
         imageURL: this.state.imageURL,
         profileComplete: true,
@@ -165,6 +167,14 @@ export default class Profile extends Component<Props> {
         </View>
         <View style={{ height: 40 }}>
           <Input
+            placeholder="Vehicle:"
+            value={this.state.vehicle}
+            style={styles.input}
+            onChangeText={vehicle => this.setState({ vehicle })}
+          />
+        </View>
+        <View style={{ height: 40 }}>
+          <Input
             placeholder="phone number:"
             value={this.state.phoneNumber}
             style={styles.input}
@@ -179,6 +189,7 @@ export default class Profile extends Component<Props> {
             {this.state.imageURL ? (
               <Image
                 style={styles.afterImageContainer}
+                tintColor="#FFF"
                 source={{ uri: this.state.imageURL }}
               />
             ) : (
@@ -190,14 +201,14 @@ export default class Profile extends Component<Props> {
           </View>
         </TouchableOpacity>
         {this.state.showSpinner ? (
-          <Spinner color="#3F8EFC" />
+          <Spinner color="#00AF66" />
         ) : (
           <Button
             rounded
             style={{
               width: 100,
               justifyContent: "center",
-              backgroundColor: "#1B365D",
+              backgroundColor: "#00AF66",
               alignSelf: "center"
             }}
             onPress={this.onSubmit}
@@ -221,7 +232,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     width: 100,
     height: 100,
-    borderColor: "#9B9B9B",
+    borderColor: "#00AF66",
     borderWidth: StyleSheet.hairlineWidth,
     justifyContent: "center",
     alignItems: "center",

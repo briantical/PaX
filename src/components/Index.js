@@ -12,24 +12,38 @@ import { Router, Scene, Stack } from "react-native-router-flux";
 import Login from "./authentication/Login";
 import Signup from "./authentication/Signup";
 import Profile from "./authentication/Profile";
+
 import CheckinDetails from "./Home/pages/CheckinDetails";
 import Confirmation from "./Home/pages/Confirmation";
 import NewCheckin from "./Home/pages/NewCheckin";
 import Home from "./Home/Home";
-import Direct from './Routing/Direct'
+
+import About from "./Home/pages/About";
+import UserRating from "./Home/pages/UserRating";
+import UserProfile from "./Home/pages/UserProfile";
+import UserShare from "./Home/pages/UserShare";
+import Settings from "./Home/pages/Settings";
+
+import Direct from "./Routing/Direct";
 
 YellowBox.ignoreWarnings([
   "Warning: isMounted(...) is deprecated",
   "Module RCTImageLoader"
 ]);
 
-
 export default class Main extends Component {
   render() {
     return (
       <Router>
         <Stack>
-        <Scene
+          <Scene
+            key="home"
+            component={Home}
+            title="Home"
+            hideNavBar={true}
+            renderBackButton={() => <View />}
+          />
+          <Scene
             key="direct"
             component={Direct}
             title="Direct"
@@ -58,13 +72,6 @@ export default class Main extends Component {
             renderBackButton={() => <View />}
           />
           <Scene
-            key="home"
-            component={Home}
-            title="Home"
-            hideNavBar={true}
-            renderBackButton={() => <View />}
-          />
-          <Scene
             key="checkindetails"
             component={CheckinDetails}
             title="CheckinDetails"
@@ -82,6 +89,41 @@ export default class Main extends Component {
             key="newcheckin"
             component={NewCheckin}
             title="newcheckin"
+            hideNavBar={true}
+            renderBackButton={() => <View />}
+          />
+          <Scene
+            key="userprofile"
+            component={UserProfile}
+            title="UserProfile"
+            hideNavBar={true}
+            renderBackButton={() => <View />}
+          />
+          <Scene
+            key="userrating"
+            component={UserRating}
+            title="UseRating"
+            hideNavBar={true}
+            renderBackButton={() => <View />}
+          />
+          <Scene
+            key="usershare"
+            component={UserShare}
+            title="UserShare"
+            hideNavBar={true}
+            renderBackButton={() => <View />}
+          />
+          <Scene
+            key="settings"
+            component={Settings}
+            title="Settings"
+            hideNavBar={true}
+            renderBackButton={() => <View />}
+          />
+          <Scene
+            key="about"
+            component={About}
+            title="About"
             hideNavBar={true}
             renderBackButton={() => <View />}
           />
